@@ -48,31 +48,34 @@ class Team():
 def menu():
     MAIN_MENU = """
     1. Play Game
-    2. Add Character
-    3. Add Monster
-    4. List Characters
-    5. List Monsters
-    6. Exit
+    2. High Scores
+    3. Add Character
+    4. Add Monster
+    5. List Characters
+    6. List Monsters
+    7. Exit
     """
-    print(MAIN_MENU)
+    return MAIN_MENU
 
 
     
 
-def add_character(name, hp, attack):
+def add_character(name, hp, attack, defense):
     new_character = {
         "Name": name,
         "HP": hp,
-        "Attack": attack
+        "Attack": attack,
+        "Defense": defense
     }
     insert_character = characters.insert_one(new_character)
     return insert_character.inserted_id
 
-def add_monster(name, hp, attack, race):
+def add_monster(name, hp, attack, defense, race):
     new_monster = {
         "Name": name,
         "HP": hp,
         "Attack": attack,
+        "Defense": defense,
         "Type": race
     }
     insert_monster = monsters.insert_one(new_monster)

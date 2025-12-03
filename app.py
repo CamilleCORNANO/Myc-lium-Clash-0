@@ -1,4 +1,4 @@
-import random, sys, model.py
+import random, sys, model
 from game import run_game
 
 
@@ -12,7 +12,7 @@ monsters = db["monsters"]
 
 
 while(True):
-    print(menu())
+    print(model.menu())
     choice = input("Enter your choice (number): ")
     match choice:
         case "1":
