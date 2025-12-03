@@ -32,9 +32,11 @@ while(True):
             mon_id = add_monster(name, hp, attack, race)
             print(f"Monster added with ID: {mon_id}")
         case "4":
-            list_characters()
+            print(model.list_characters())
         case "5":
-            list_monsters()
+            print(model.list_monsters())
         case "6":
             print("Exiting the game. Goodbye!")
+            client.close()
             break
+        

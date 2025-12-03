@@ -16,12 +16,30 @@ class Character:
         self.health -= damage
     def deal_damage(self, other):
         other.take_damage(self.attack)
+    def get_character(self):
+        return {
+            "Name": self.name,
+            "HP": self.health,
+            "Attack": self.attack,
+            "Defense": self.defense
+        }
         
 class Monster(Character):
-    def __init__(self, name, hp, attack, race, defense):
+    def __init__(self, name, hp, attack, defense, race):
         super().__init__(name, hp, attack, defense)
-        self.race = race
-       
+        self.race = race      
+    def get_character(self):
+        base_character = super().get_character()
+        base_character["Race"] = self.race
+        return base_character
+    def get_character(self):
+        return {
+            "Name": self.name,
+            "HP": self.health,
+            "Attack": self.attack,
+            "Defense": self.defense,
+            "Race": self.race
+        }
 
 class Player():
     def __init__(self, name):
@@ -36,6 +54,7 @@ class Player():
         return self.score
     def increase_score(self):
         self.score += 1
+        
 class Team():
     def __init__(self):
         self.members = []
@@ -55,10 +74,7 @@ def menu():
     6. List Monsters
     7. Exit
     """
-    return MAIN_MENU
-
-
-    
+    return MAIN_MENU   
 
 def add_character(name, hp, attack, defense):
     new_character = {
@@ -83,13 +99,43 @@ def add_monster(name, hp, attack, defense, race):
 
 def list_characters():
     for character in characters.find():
-        print(character)
+        print(character.get_character())
         
 def list_monsters():
     for monster in monsters.find():
-        print(monster)
+        print(monster.get_character())
+        
+def get_characters():
+    for character in characters.find():
+        new_character = Character(
+            character["Name"],
+            character["HP"],
+            character["Attack"],
+            character["Defense"]
+        )
+    for monster in monsters.find():
+        new_monster = Monster(
+            monster["Name"],
+            monster["HP"],
+            monster["Attack"],
+            monster["Type"],
+            monster["Defense"],
+            monster["Race"]
+        )
+    return list(characters.find())
+
+def get_character_by_name(name):
+    character = characters.find_one({"Name": name})
+    if character:
+        return Character(
+            character["Name"],
+            character["HP"],
+            character["Attack"],
+            character["Defense"]
+        )
+    return None
+
 def clear_database():
     characters.delete_many({})
     monsters.delete_many({})
 
-client.close()

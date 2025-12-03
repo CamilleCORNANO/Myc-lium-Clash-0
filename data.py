@@ -20,20 +20,20 @@ character_data = [
     {"Name": "Tsubaki",  "HP": 1000, "Attack": 1000, "Defense": 0.35}
 ]
 monster_data = [
-    {"Name": "Le grand Capital", "HP": 2105000, "Attack": 300, "Defense": 1},
-    {"Name": "Le Patriarcat",  "HP": 1940000, "Attack": 670, "Defense": 0.94},
-    {"Name": "Emmanuel Macron",  "HP": 4000, "Attack": 16, "Defense": 1.34},
-    {"Name": "L'Hégémonie Culturelle Etatsunienne",  "HP": 1040000, "Attack": 250, "Defense": 0.89},
-    {"Name": "Le Réchauffement Climatique",  "HP": 2500000, "Attack": 1500, "Defense": 0.8},
-    {"Name": "anti-Wokes",  "HP": 1800, "Attack": 800, "Defense": 1.1},
-    {"Name": "Le grand déni des crimes de guerres Japonais",  "HP": 2200000, "Attack": 115, "Defense": 1.1},
-    {"Name": "Le nationalisme",  "HP": 1300000, "Attack": 400, "Defense": 1.2},
-    {"Name": "Les bonapartistes",  "HP": 90000, "Attack": 160, "Defense": 1.3},
-    {"Name": "Les services de renseignement",  "HP": 5000, "Attack": 17000, "Defense": 0.7},
-    {"Name": "Les lobbys agro-industriels",  "HP": 750000, "Attack": 600, "Defense": 0.75},
-    {"Name": "Le lobby pharmaceutique",  "HP": 1100000, "Attack": 300, "Defense": 0.85},
-    {"Name": "La CRIF",  "HP": 2000000, "Attack": 1760, "Defense": 1.15},
-    {"Name": "Le consumérisme",  "HP": 1600000, "Attack": 1100, "Defense": 0.9}
+    {"Name": "Le grand Capital", "HP": 2105000, "Attack": 300, "Defense": 1, "Race": "White"},
+    {"Name": "Le Patriarcat",  "HP": 1940000, "Attack": 670, "Defense": 0.94, "Race": "White"},
+    {"Name": "Emmanuel Macron",  "HP": 4000, "Attack": 16, "Defense": 1.34, "Race": "White"},
+    {"Name": "L'Hégémonie Culturelle Etatsunienne",  "HP": 1040000, "Attack": 250, "Defense": 0.89, "Race": "White"},
+    {"Name": "Le Réchauffement Climatique",  "HP": 2500000, "Attack": 1500, "Defense": 0.8, "Race" : "White"},
+    {"Name": "anti-Wokes",  "HP": 1800, "Attack": 800, "Defense": 1.1, "Race": "White"},
+    {"Name": "Le grand déni des crimes de guerres Japonais",  "HP": 2200000, "Attack": 115, "Defense": 1.1, "Race": "Asian"},
+    {"Name": "Le nationalisme",  "HP": 1300000, "Attack": 400, "Defense": 1.2, "Race": "White"},
+    {"Name": "Les bonapartistes",  "HP": 90000, "Attack": 160, "Defense": 1.3, "Race": "White"},
+    {"Name": "Les services de renseignement",  "HP": 5000, "Attack": 17000, "Defense": 0.7, "Race": "White"},
+    {"Name": "Les lobbys agro-industriels",  "HP": 750000, "Attack": 600, "Defense": 0.75, "Race": "White"},
+    {"Name": "Le lobby pharmaceutique",  "HP": 1100000, "Attack": 300, "Defense": 0.85, "Race": "White"},
+    {"Name": "La CRIF",  "HP": 2000000, "Attack": 1760, "Defense": 1.15, "Race": "White"},
+    {"Name": "Le consumérisme",  "HP": 1600000, "Attack": 1100, "Defense": 0.9, "Race": "White"}
 ]
 
 characters.insert_many(character_data)
