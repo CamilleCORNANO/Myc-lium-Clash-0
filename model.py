@@ -5,10 +5,11 @@ characters = db["characters"]
 monsters = db["monsters"]
 
 class Character:
-    def __init__(self, name, hp, attack):
+    def __init__(self, name, hp, attack, defense):
         self.name = name
         self.health = hp
         self.attack = attack
+        self.defense = defense
     def is_alive(self):
         return self.health > 0
     def take_damage(self, damage):
@@ -17,9 +18,10 @@ class Character:
         other.take_damage(self.attack)
         
 class Monster(Character):
-    def __init__(self, name, hp, attack, race):
-        super().__init__(name, hp, attack)
+    def __init__(self, name, hp, attack, race, defense):
+        super().__init__(name, hp, attack, defense)
         self.race = race
+       
 
 class Player():
     def __init__(self, name):
@@ -34,7 +36,14 @@ class Player():
         return self.score
     def increase_score(self):
         self.score += 1
-    
+class Team():
+    def __init__(self):
+        self.members = []
+    def add_member(self, character):
+        if len(self.members) < 3 and character not in self.members:
+            self.members.append(character)
+    def get_members(self):
+        return self.members    
 
 def menu():
     MAIN_MENU = """
@@ -76,5 +85,8 @@ def list_characters():
 def list_monsters():
     for monster in monsters.find():
         print(monster)
+def clear_database():
+    characters.delete_many({})
+    monsters.delete_many({})
 
 client.close()
