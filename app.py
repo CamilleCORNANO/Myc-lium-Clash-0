@@ -1,6 +1,6 @@
 import random, sys, model
 from game import run_game
-
+from model import add_character, add_monster, list_characters, list_monsters, get_character_by_name
 
 
 
@@ -18,24 +18,26 @@ while(True):
         case "1":
             print("Game started!")
             run_game()
-        case "2":
+        case "3":
             name = input("Enter character name: ")
             hp = int(input("Enter character HP: "))
             attack = int(input("Enter character Attack: "))
-            char_id = add_character(name, hp, attack)
+            defense = float(input("Enter character Defense: "))
+            char_id = add_character(name, hp, attack, defense)
             print(f"Character added with ID: {char_id}")
-        case "3":
+        case "4":
             name = input("Enter monster name: ")
             hp = int(input("Enter monster HP: "))
             attack = int(input("Enter monster Attack: "))
+            defense = float(input("Enter monster Defense: ")) 
             race = input("Enter monster race: ")
-            mon_id = add_monster(name, hp, attack, race)
+            mon_id = add_monster(name, hp, attack, defense, race)
             print(f"Monster added with ID: {mon_id}")
-        case "4":
-            print(model.list_characters())
         case "5":
-            print(model.list_monsters())
+            print(model.list_characters())
         case "6":
+            print(model.list_monsters())
+        case "7":
             print("Exiting the game. Goodbye!")
             client.close()
             break
