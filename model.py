@@ -44,7 +44,7 @@ def add_monster_to_db(name, hp, attack, defense, race):
 def add_score_to_db(player):
     new_score = {
         "PlayerName": player.name,
-        "Score": player.get_score().get_score(),
+        "Score": player.get_score(),
         "Team" : player.team_state()
         }    
     insert_score = db["high_scores"].insert_one(new_score)

@@ -19,13 +19,11 @@ def run_game():
                 print(f"Player {player.name} has selected the following characters: {', '.join([member.name for member in player.characters.get_members()])}")
             player_team = player.get_characters()
             num_monsters = 1
-            battle(player_team, num_monsters)
-            num_monsters = increase_monsters(player.get_score().score, num_monsters)
-            if player.get_score().score >= 5:
+            battle(player, num_monsters)
+            num_monsters = increase_monsters(player.get_score(), num_monsters)
+            if player.get_score() >= 5:
                 print(f"Congratulations {player.name}, you have won the game!")
                 game_over(player)
-                high_scores = db["high_scores"]
-                high_scores.insert_one({"player_name": player.name, "score": player.get_score().score})
                 break
             
         
@@ -55,7 +53,7 @@ def score_update(player):
     
 def game_over(player):
     print("Game Over! Thanks for playing.")
-    add_score_to_db(player, player.get_score().score)
+    add_score_to_db(player)
     return player.get_score()
     
 def increase_monsters(score, num_monsters):
@@ -73,18 +71,18 @@ def start_battle(num_monsters):
     print(f"Battle started between player team and {monster_names}!")
     return monster_team
 
-def battle(player_team, num_monsters):
+def battle(player, num_monsters):
     monster_team = start_battle(num_monsters)
-    while not player_team.is_defeated() and not monster_team.is_defeated():
-        turn(player_team, monster_team)
+    while not player.get_characters().is_defeated() and not monster_team.is_defeated():
+        turn(player.get_characters(), monster_team)
         if monster_team.is_defeated():
             print("Players win the battle!")
-            score_update(player_team)
+            score_update(player)
             break
-        turn(monster_team, player_team)
-        if player_team.is_defeated():
+        turn(monster_team, player.get_characters())
+        if player.get_characters().is_defeated():
             print("Monsters win the battle!")
-            game_over()
+            game_over(player)
             break
 
 def turn(team, foes):

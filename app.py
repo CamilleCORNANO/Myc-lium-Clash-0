@@ -20,10 +20,12 @@ while(True):
             print("Game started!")  
             run_game()
         case "2":
-            print("High Scores:")
-            high_scores = db["high_scores"]
-            for score in high_scores.find().sort("score", -1).limit(10):
-                print(f"Player: {score['player_name']}, Score: {score['score']}")
+            print("Fetching high scores...")  # Debug
+            high_scores = list(db["high_scores"].find().sort("Score", -1).limit(10))
+            print(f"Found {len(high_scores)} scores")  # Debug
+            for score in high_scores:
+                print(f"Player: {score['PlayerName']}, Score: {score['Score']}")
+            input("\nPress Enter to continue...")
         case "3":
             name = input("Enter character name: ")
             hp = int(input("Enter character HP: "))
@@ -43,10 +45,10 @@ while(True):
             print(f"Monster added with ID: {mon_id}")
         case "5":
             print(model.list_characters())
-            print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+            print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
         case "6":
             print(model.list_monsters())
-            print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+            print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
         case "7":
             print("Exiting the game. Goodbye!")
             client.close()
