@@ -1,8 +1,8 @@
 from hashlib import new
 from pymongo import MongoClient
 from classes import Character, Monster
-
 import data
+
 client = MongoClient("mongodb://localhost:27017")
 db = client["Mycelium_Clash"]
 db_characters = db["characters"]
@@ -40,6 +40,16 @@ def add_monster_to_db(name, hp, attack, defense, race):
     }
     insert_monster = db_monsters.insert_one(new_monster)
     return insert_monster.inserted_id
+
+def add_score_to_db(player):
+    new_score = {
+        "PlayerName": player.name,
+        "Score": player.get_score().get_score(),
+        "Team" : player.team_state()
+        }    
+    insert_score = db["high_scores"].insert_one(new_score)
+    return insert_score.inserted_id
+
 
 def list_characters():
     characters = get_characters()[0]

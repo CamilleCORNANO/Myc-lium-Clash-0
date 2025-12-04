@@ -4,6 +4,8 @@ client = MongoClient("mongodb://localhost:27017")
 db = client["Mycelium_Clash"]
 characters = db["characters"]
 monsters = db["monsters"]
+scores = db["high_scores"]
+skills = db["skills"]
 
 
 character_data = [
@@ -35,6 +37,8 @@ monster_data = [
     {"Name": "La CRIF",  "HP": 2000000, "Attack": 1760, "Defense": 1.15, "Race": "White"},
     {"Name": "Le consumérisme",  "HP": 1600000, "Attack": 1100, "Defense": 0.9, "Race": "White"}
 ]
-
-characters.insert_many(character_data)
-monsters.insert_many(monster_data)
+def load_data():
+    if characters.find_one() is None:
+        characters.insert_many(character_data)
+    if monsters.find_one() is None:
+        monsters.insert_many(monster_data)

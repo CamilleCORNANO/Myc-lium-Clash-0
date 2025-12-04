@@ -1,3 +1,4 @@
+import random
 class Character:
     def __init__(self, name, hp, attack, defense):
         self.name = name
@@ -55,22 +56,29 @@ class Player():
     def __init__(self, name):
         self.name = name
         self.characters = Team()
-        self.score = Score()
-    def add_character(self, character):
-        self.characters.append(character)
+        self.score = Score(self)
+    def add_character_to_team(self, character):
+        self.characters.add_member(character)
     def get_characters(self):
         return self.characters
     def get_score(self):
-        return self.score
+        return self.score.get_score()
     def increase_score(self):
-        self.score += 1
+        self.score.increase()
+    def team_state(self):
+        team_display = []
+        for member in self.get_characters().get_members():
+            if member.is_alive():
+                team_display.append(member.name)
+            else:
+                team_display.append(f"{member.name} (Dead)")
+        return team_display
         
 class Team():
     def __init__(self):
         self.members = []
     def add_member(self, character):
-        if len(self.members) < 3 and character not in self.members:
-            self.members.append(character)
+        self.members.append(character)
     def get_members(self):
         return self.members
     def alive_members(self):
@@ -79,9 +87,13 @@ class Team():
         return all(not member.is_alive() for member in self.members)
 
 class Score():
-    def __init__(self):
+    def __init__(self, player):
         self.value = 0
+        self.player = player.name
+        self.team = player.get_characters()
+    def __str__(self):
+        return f"Player: {self.player}, Score: {self.value}"
     def increase(self, amount=1):
         self.value += amount
-    def get_value(self):
+    def get_score(self):
         return self.value
