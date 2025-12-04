@@ -1,6 +1,6 @@
 import random, sys, model
 from game import run_game
-from model import add_character, add_monster, list_characters, list_monsters, get_character_by_name
+from model import add_character_to_db, add_monster_to_db, list_characters, list_monsters, get_character_by_name
 
 
 
@@ -16,14 +16,17 @@ while(True):
     choice = input("Enter your choice (number): ")
     match choice:
         case "1":
-            print("Game started!")
+            print("Game started!")  
             run_game()
+        case "2":
+            print("High Scores:")
+            # High score logic would go here
         case "3":
             name = input("Enter character name: ")
             hp = int(input("Enter character HP: "))
             attack = int(input("Enter character Attack: "))
             defense = float(input("Enter character Defense: "))
-            char_id = add_character(name, hp, attack, defense)
+            char_id = add_character_to_db(name, hp, attack, defense)
             print(f"Character added with ID: {char_id}")
         case "4":
             name = input("Enter monster name: ")
@@ -35,8 +38,10 @@ while(True):
             print(f"Monster added with ID: {mon_id}")
         case "5":
             print(model.list_characters())
+            print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
         case "6":
             print(model.list_monsters())
+            print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
         case "7":
             print("Exiting the game. Goodbye!")
             client.close()
