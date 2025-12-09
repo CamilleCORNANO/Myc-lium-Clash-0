@@ -5,6 +5,7 @@ class Character:
         self.health = hp
         self.attack = attack
         self.defense = defense
+        self.killer = None
     def is_alive(self):
         return self.health > 0
     
@@ -23,7 +24,8 @@ class Character:
         }
     def __str__(self):
         return f"{self.name} \n (HP: {self.health}, Attack: {self.attack}, Defense: {self.defense})"
-
+    def return_killer(self):
+        return f"Killed by {self.killer}"
     def __add__(self, other):
         if isinstance(other, Character):
             return Character(
@@ -71,7 +73,7 @@ class Player():
             if member.is_alive():
                 team_display.append(member.name)
             else:
-                team_display.append(f"{member.name} (Dead)")
+                team_display.append(f"{member.name} (Dead, {member.return_killer()})")
         return team_display
         
 class Team():

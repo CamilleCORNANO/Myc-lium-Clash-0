@@ -1,7 +1,7 @@
 from classes import Monster
 import random, sys, model
 from game import run_game
-from model import add_character_to_db, add_monster_to_db, list_characters, list_monsters, get_characters 
+from model import load_high_scores, add_character_to_db, add_monster_to_db, list_characters, list_monsters, get_characters 
 from data import load_data
 
 from pymongo import MongoClient
@@ -21,10 +21,11 @@ while(True):
             run_game()
         case "2":
             print("Fetching high scores...")  # Debug
-            high_scores = list(db["high_scores"].find().sort("Score", -1).limit(10))
-            print(f"Found {len(high_scores)} scores")  # Debug
+            
+            high_scores = load_high_scores()
+            """print(f"Found {len(high_scores)} scores")  # Debug
             for score in high_scores:
-                print(f"Player: {score['PlayerName']}, Score: {score['Score']}")
+                print(f"Player: {score['PlayerName']}, Score: {score['Score']}")"""
             input("\nPress Enter to continue...")
         case "3":
             name = input("Enter character name: ")

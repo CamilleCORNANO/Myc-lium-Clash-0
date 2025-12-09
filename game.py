@@ -96,6 +96,9 @@ def turn(team, foes):
 def attack(attacker, defender):
     damage = attacker.attack * random.uniform(0.8, 1.2)
     defender.take_damage(damage)
+    if not defender.is_alive():
+        print(f"{attacker.name} has defeated {defender.name}!")
+        defender.killer = attacker.name
     print(f"{attacker.name} deals {damage:.0f} damage to {defender.name}!")
     #.0f formats the damage to 0 decimal places
-    
+

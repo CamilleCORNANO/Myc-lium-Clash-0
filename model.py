@@ -7,6 +7,7 @@ client = MongoClient("mongodb://localhost:27017")
 db = client["Mycelium_Clash"]
 db_characters = db["characters"]
 db_monsters = db["monsters"]
+db_high_scores = db["high_scores"]
 
 def menu():
     MAIN_MENU = """
@@ -55,7 +56,6 @@ def list_characters():
     characters = get_characters()[0]
     for character in characters:
         print(character)
-    
         
 def list_monsters():
     monsters = get_characters()[1]
@@ -83,6 +83,16 @@ def get_characters():
         )
         monsters.append(new_monster)
     return characters, monsters
+def load_team(team):
+    for char in team:
+        chara 
+        
+    return team
+
+def load_high_scores():
+    high_scores = db_high_scores.find().sort("Score", -1).limit(10)
+    for idx, score_entry in enumerate(high_scores, 1):
+        print(f"{idx}. {score_entry['PlayerName']} - Score: {score_entry['Score']} - Team: {', '.join(score_entry['Team'])}")
 
 """def get_character_by_name(name):
     character = db_characters.find_one({"Name": name})
