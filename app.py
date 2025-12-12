@@ -20,12 +20,8 @@ while(True):
             print("Game started!")  
             run_game()
         case "2":
-            print("Fetching high scores...")  # Debug
-            
-            high_scores = load_high_scores()
-            """print(f"Found {len(high_scores)} scores")  # Debug
-            for score in high_scores:
-                print(f"Player: {score['PlayerName']}, Score: {score['Score']}")"""
+            print("Fetching high scores...")
+            load_high_scores()
             input("\nPress Enter to continue...")
         case "3":
             name = input("Enter character name: ")
@@ -51,7 +47,12 @@ while(True):
             print(model.list_monsters())
             print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
         case "7":
+            print(model.list_skills())
+            print(model.list_specials())
+            
+        case "8":
             print("Exiting the game. Goodbye!")
             client.close()
+            sys.exit()
             break
         

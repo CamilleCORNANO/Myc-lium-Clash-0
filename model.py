@@ -8,6 +8,8 @@ db = client["Mycelium_Clash"]
 db_characters = db["characters"]
 db_monsters = db["monsters"]
 db_high_scores = db["high_scores"]
+db_skills = db["skills"]
+db_specials = db["specials"]
 
 def menu():
     MAIN_MENU = """
@@ -17,7 +19,8 @@ def menu():
     4. Add Monster
     5. List Characters
     6. List Monsters
-    7. Exit
+    7. List Skills and Specials
+    8. Exit
     """
     return MAIN_MENU   
 
@@ -61,6 +64,17 @@ def list_monsters():
     monsters = get_characters()[1]
     for monster in monsters:
         print(monster)
+    
+def list_skills():
+    skills = get_skills()
+    for skill in skills:
+        print(skill)
+
+def list_specials():
+    specials = db_specials.find()
+    for special in specials:
+        print(special)
+
         
 def get_characters():
     characters = []
@@ -83,29 +97,57 @@ def get_characters():
         )
         monsters.append(new_monster)
     return characters, monsters
-def load_team(team):
-    for char in team:
-        chara 
-        
-    return team
+def get_skills():
+    skills = []
+    for skill in db_skills.find():
+        skills.append(skill)
+    
+    return skills
 
 def load_high_scores():
     high_scores = db_high_scores.find().sort("Score", -1).limit(10)
     for idx, score_entry in enumerate(high_scores, 1):
         print(f"{idx}. {score_entry['PlayerName']} - Score: {score_entry['Score']} - Team: {', '.join(score_entry['Team'])}")
 
-"""def get_character_by_name(name):
-    character = db_characters.find_one({"Name": name})
-    if character:
-        return Character(
-            character["Name"],
-            character["HP"],
-            character["Attack"],
-            character["Defense"]
-        )
-    return None"""
+def get_character_by_name(name):
+        characters, monsters = get_characters()
+        for character in characters:
+            if character.name == name:
+                return character
+        for monster in monsters:
+            if monster.name == name:
+                return monster
+        print(f"Character with name {name} not found.")
+        return None
 
+def clear_database(unit):
+    match unit:
+        case "characters":
+            db_characters.delete_many({})
+        
+        case "monsters":
+            db_monsters.delete_many({})
+        
+        case "high_scores":
+            db_high_scores.delete_many({})
+        
+        case "skills":
+            db_skills.delete_many({})
+        
+        case "specials":
+            db_specials.delete_many({})
+        
+        case "all":
+            db_characters.delete_many({})
+            db_monsters.delete_many({})
+            db_high_scores.delete_many({})
+            db_skills.delete_many({})
+            db_specials.delete_many({})
+        
+        case _:  # Le _ est le "default" (comme else)
+            print("Invalid unit specified.")
+            return  # Sort de la fonction sans afficher le message de succès
+    
+    print(f"Cleared all data from {unit} collection.")
 
-def clear_database():
-    db_characters.delete_many({})
-    db_monsters.delete_many({})
+clear_database("all")

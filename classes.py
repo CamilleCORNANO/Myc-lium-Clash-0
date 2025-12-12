@@ -1,10 +1,14 @@
 import random
+import time
+
 class Character:
-    def __init__(self, name, hp, attack, defense):
+    def __init__(self, name, hp, attack, defense, luck, skills):
         self.name = name
         self.health = hp
         self.attack = attack
         self.defense = defense
+        self.luck = luck
+        self.skills = skills
         self.killer = None
     def is_alive(self):
         return self.health > 0
@@ -14,7 +18,7 @@ class Character:
         if self.health <= 0:
             self.health = 0
             print(f"{self.name} has been defeated!")
-    
+
     def get_character(self):
         return {
             "Name": self.name,
@@ -26,6 +30,19 @@ class Character:
         return f"{self.name} \n (HP: {self.health}, Attack: {self.attack}, Defense: {self.defense})"
     def return_killer(self):
         return f"Killed by {self.killer}"
+    
+    def use_skill(self, skill, target):
+        if random.random() <= skill.trigger:
+            damage = skill.power * self.attack
+            if damage < 0:
+                self.health -= damage  # Healing
+                skills(skill.name)
+                print(f"{self.name} used {skill.name} and healed for {-damage} HP!")
+            else:
+                target.take_damage(damage)
+                skills(skill.name)
+                print(f"{self.name} used {skill.name} on {target.name} dealing {damage} damage!")
+    
     def __add__(self, other):
         if isinstance(other, Character):
             return Character(
@@ -99,3 +116,19 @@ class Score():
         self.value += amount
     def get_score(self):
         return self.value
+    
+class Skill:
+    def __init__(self, name, power, trigger, description):
+        self.name = name
+        self.power = power
+        self.trigger = trigger
+        self.description = description
+    def __str__(self):
+        return f"{self.name} (Power: {self.power}, Trigger: {self.trigger}) - {self.description} /n"
+
+class Special(Skill):
+    def __init__(self, name, power, trigger, user, description):
+        super().__init__(name, power, trigger, description)
+        self.user = user
+    def __str__(self):
+        return f"{self.name} (User: {self.user}, Power: {self.power}, Trigger: {self.trigger}) - {self.description} /n"

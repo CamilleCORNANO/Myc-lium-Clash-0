@@ -1,8 +1,8 @@
 import random
+import time
 from model import *
 from classes import Player, Team, Character, Monster
-from utils import get_int_input
-from data import load_data
+from utils import get_int_input, get_character_by_name, get_characters
 
 def run_game():
     while True:
@@ -17,10 +17,10 @@ def run_game():
                 selected_character = character_select()
                 player.characters.add_member(selected_character)
                 print(f"Player {player.name} has selected the following characters: {', '.join([member.name for member in player.characters.get_members()])}")
-            player_team = player.get_characters()
-            num_monsters = 1
-            battle(player, num_monsters)
-            num_monsters = increase_monsters(player.get_score(), num_monsters)
+            print(player.get_characters())
+            level = level(player.get_score)
+            battle(player, level)
+            #num_monsters = increase_monsters(player.get_score(), num_monsters)
             if player.get_score() >= 5:
                 print(f"Congratulations {player.name}, you have won the game!")
                 game_over(player)
@@ -55,24 +55,66 @@ def game_over(player):
     print("Game Over! Thanks for playing.")
     add_score_to_db(player)
     return player.get_score()
-    
-def increase_monsters(score, num_monsters):
-    if score % 2 != 0:
-        num_monsters += 1
-    return num_monsters
 
-def start_battle(num_monsters):
-    _ , monsters = get_characters()
-    selected_monsters = random.sample(monsters, num_monsters)
+    
+def level(level):
+    match level:
+        case 1:
+            selected_monsters = [get_character_by_name("anti-Wokes"), 
+                                 get_character_by_name("Tonton raciste"), 
+                                 get_character_by_name("Bobo parisien"),
+                                 get_character_by_name("Bonapartiste")] 
+            return create_monster_team(selected_monsters, 1)
+        case 2:
+            selected_monsters = [get_character_by_name("Flic"), 
+                                 get_character_by_name("La CRIF"), 
+                                 get_character_by_name("Emmanuel Macron")] 
+            return create_team(selected_monsters)
+        case 3:
+            selected_monsters = [get_character_by_name("Les services de renseignement"), 
+                                 get_character_by_name("Le nationalisme"),
+                                 get_character_by_name("Le consumérisme"), 
+                                 get_character_by_name("Le grand déni des crimes de guerres Japonais"),
+                                 get_character_by_name("L'Hégémonie Culturelle Etatsunienne")
+                                 ]
+            return create_monster_team(selected_monsters, 1)
+        case 4:
+            selected_monsters = [get_character_by_name("Le Patriarcat"), 
+                                 get_character_by_name("Le grand Capital"), 
+                                 get_character_by_name("Les lobbys agro-industriels"),
+                                 get_character_by_name("Le lobby pharmaceutique"),
+                                 ]
+            return create_monster_team(selected_monsters, 2)
+        case 5:
+            selected_monsters = [get_character_by_name("Le Réchauffement Climatique")]
+            return create_team(selected_monsters)
+        case _:
+            print("argument level incorrect")
+            return None
+
+def create_monster_team(monster_names_list, num_monsters):
     monster_team = Team()
-    for monster in selected_monsters:
-        monster_team.add_member(monster)
-    monster_names = ", ".join([f"{i}. {monster.name}" for i, monster in enumerate(monster_team.members, 1)])
-    print(f"Battle started between player team and {monster_names}!")
+    
+    for _ in range(num_monsters):
+        # Sélectionne un monstre aléatoire dans la liste
+        selected_names = random.sample(monster_names_list, min(num_monsters, len(monster_names_list)))
+        monster = get_character_by_name(random.choice(selected_names))
+        
+        if monster:  # Vérification que le monstre existe
+            monster_team.add_member(monster)
     return monster_team
 
-def battle(player, num_monsters):
-    monster_team = start_battle(num_monsters)
+def create_team(names_list):
+    new_team = Team()
+    for name in names_list:
+        character = get_character_by_name(name)
+        if character:
+           new_team.add_member(character)
+    return new_team
+    
+  
+def battle(player, score):
+    monster_team = level(score)
     while not player.get_characters().is_defeated() and not monster_team.is_defeated():
         turn(player.get_characters(), monster_team)
         if monster_team.is_defeated():
@@ -86,6 +128,8 @@ def battle(player, num_monsters):
             break
 
 def turn(team, foes):
+    combat_pause(type_pause="turn_start", team_name=", "
+                    .join([member.name for member in team.get_members()]))
     alive = team.alive_members()
     for member in alive:
         if not foes.alive_members():
@@ -95,10 +139,90 @@ def turn(team, foes):
         
 def attack(attacker, defender):
     damage = attacker.attack * random.uniform(0.8, 1.2)
+    damage = crit_chance(damage)
     defender.take_damage(damage)
+    print(f"{attacker.name} deals {damage:.0f} damage to {defender.name}!")
+    combat_pause(type_pause="damage", damage=damage, defender_name=defender.name)
     if not defender.is_alive():
         print(f"{attacker.name} has defeated {defender.name}!")
+        combat_pause(type_pause="defeat", defender_name=defender.name)
         defender.killer = attacker.name
-    print(f"{attacker.name} deals {damage:.0f} damage to {defender.name}!")
     #.0f formats the damage to 0 decimal places
+    
+def combat_pause(type_pause, **kwargs):
+    match type_pause:
+        case "action":
+            attacker = kwargs.get('attacker_name', 'Attaquant')
+            # Animation de préparation
+            print(f"{attacker} ", end="", flush=True)
+            for _ in range(3):
+                print(".", end="", flush=True)
+                time.sleep(0.3)
+            print(" ATTAQUE !")
+            time.sleep(0.5)
+        
+        case "damage":
+            damage = kwargs.get('damage', 0)
+            defender = kwargs.get('defender_name', 'Cible')
+            # Affichage des dégâts avec emphase
+            print(f"{defender} subit {damage:.0f} points de dégâts !")
+            time.sleep(1.5)
+        
+        case "defeat":
+            defender = kwargs.get('defender_name', 'Ennemi')
+            # Animation de défaite
+            print(f"\n{'='*50}")
+            print(f"{defender} a été vaincu !")
+            print(f"{'='*50}")
+            time.sleep(2.5)
+        
+        case "turn_start":
+            team_name = kwargs.get('team_name', 'Équipe')
+            print(f"\n{'='*50}")
+            print(f"Tour de : {team_name}")
+            print(f"{'='*50}")
+            time.sleep(1)
+        
+        case "turn_end":
+            print(f"\n{'-'*50}")
+            time.sleep(1)
+        
+        case "critical":
+            # Pause spéciale pour un coup critique
+            print(" COUP CRITIQUE !")
+            time.sleep(1)
+        
+        case _:
+            # Cas par défaut
+            print("Type de pause inconnu")
 
+def crit_chance(damage):
+        if random.random() < 0.1:  # 10% chance for critical hit
+            print("Critical Hit!")
+            combat_pause(type_pause="critical")
+            return damage * 3
+        return damage
+    
+def skills(skill_name):
+    match skill_name:
+        case "Slash":
+            slash()
+        case "Fireball":
+            print(f"Using skill: {skill_name}!")
+            time.sleep(1)
+        case "Heal":
+            print(f"Using skill: {skill_name}!")
+            time.sleep(1)
+        case "Ice Shard":
+            print(f"Using skill: {skill_name}!")
+            time.sleep(1)
+        case "Thunder":
+            print(f"Using skill: {skill_name}!")
+            time.sleep(1)
+    print(f"Using skill: {skill_name}!")
+    time.sleep(1)
+    
+def slash():
+    print("Using skill: Slash!")
+    print("Swinging sword for Slash!")
+    time.sleep(1)
