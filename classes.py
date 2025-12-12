@@ -1,6 +1,8 @@
 import random
 import time
 
+from game import skills
+
 class Character:
     def __init__(self, name, hp, attack, defense, luck, skills):
         self.name = name
@@ -18,30 +20,18 @@ class Character:
         if self.health <= 0:
             self.health = 0
             print(f"{self.name} has been defeated!")
-
-    def get_character(self):
-        return {
-            "Name": self.name,
-            "HP": self.health,
-            "Attack": self.attack,
-            "Defense": self.defense
-        }
+    def luck_roll(self):
+        return self.luck * 1,3
+    
     def __str__(self):
         return f"{self.name} \n (HP: {self.health}, Attack: {self.attack}, Defense: {self.defense})"
     def return_killer(self):
         return f"Killed by {self.killer}"
     
-    def use_skill(self, skill, target):
-        if random.random() <= skill.trigger:
-            damage = skill.power * self.attack
-            if damage < 0:
-                self.health -= damage  # Healing
-                skills(skill.name)
-                print(f"{self.name} used {skill.name} and healed for {-damage} HP!")
-            else:
-                target.take_damage(damage)
-                skills(skill.name)
-                print(f"{self.name} used {skill.name} on {target.name} dealing {damage} damage!")
+    def use_skills(self, team, foes):
+        for s in self.skills:
+            skills(s.name, self, team, foes)
+            
     
     def __add__(self, other):
         if isinstance(other, Character):
@@ -78,7 +68,7 @@ class Player():
         self.score = Score(self)
     def add_character_to_team(self, character):
         self.characters.add_member(character)
-    def get_characters(self):
+    def get_team(self):
         return self.characters
     def get_score(self):
         return self.score.get_score()
@@ -125,6 +115,15 @@ class Skill:
         self.description = description
     def __str__(self):
         return f"{self.name} (Power: {self.power}, Trigger: {self.trigger}) - {self.description} /n"
+    
+    def trigger_okay(self, luck):
+        trigger = self.trigger + luck
+        if trigger < 1:
+            return False
+        if trigger > 1 :
+            if self.trigger_okay(trigger) :
+                
+            return True
 
 class Special(Skill):
     def __init__(self, name, power, trigger, user, description):

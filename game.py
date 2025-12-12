@@ -2,7 +2,7 @@ import random
 import time
 from model import *
 from classes import Player, Team, Character, Monster
-from utils import get_int_input, get_character_by_name, get_characters
+from utils import get_int_input, get_by_name, get_characters, 
 
 def run_game():
     while True:
@@ -60,13 +60,13 @@ def game_over(player):
 def level(level):
     match level:
         case 1:
-            selected_monsters = [get_character_by_name("anti-Wokes"), 
+            selected_monsters = [get_by_name("anti-Wokes"), 
                                  get_character_by_name("Tonton raciste"), 
                                  get_character_by_name("Bobo parisien"),
                                  get_character_by_name("Bonapartiste")] 
             return create_monster_team(selected_monsters, 1)
         case 2:
-            selected_monsters = [get_character_by_name("Flic"), 
+            selected_monsters = [get_by_name("Flic"), 
                                  get_character_by_name("La CRIF"), 
                                  get_character_by_name("Emmanuel Macron")] 
             return create_team(selected_monsters)
@@ -115,14 +115,14 @@ def create_team(names_list):
   
 def battle(player, score):
     monster_team = level(score)
-    while not player.get_characters().is_defeated() and not monster_team.is_defeated():
-        turn(player.get_characters(), monster_team)
+    while not player.get_team().is_defeated() and not monster_team.is_defeated():
+        turn(player.get_team(), monster_team)
         if monster_team.is_defeated():
             print("Players win the battle!")
             score_update(player)
             break
         turn(monster_team, player.get_characters())
-        if player.get_characters().is_defeated():
+        if player.get_team().is_defeated():
             print("Monsters win the battle!")
             game_over(player)
             break
@@ -136,6 +136,7 @@ def turn(team, foes):
             break
         print(f"{member.name} attacks!")
         attack(member, random.choice(foes.alive_members()))
+        member.use_skills(member, foes, team)
         
 def attack(attacker, defender):
     damage = attacker.attack * random.uniform(0.8, 1.2)
@@ -196,24 +197,27 @@ def combat_pause(type_pause, **kwargs):
             # Cas par défaut
             print("Type de pause inconnu")
 
-def crit_chance(damage):
-        if random.random() < 0.1:  # 10% chance for critical hit
-            print("Critical Hit!")
-            combat_pause(type_pause="critical")
-            return damage * 3
-        return damage
+def crit_chance(character, damage):
+    luck_multiplier = character.luck_roll()
+    crit_threshold = 0.1 * luck_multiplier
+    if random.random() < crit_threshold:
+        print("Critical Hit!")
+        combat_pause(type_pause="critical")
+        return damage * 3
+    return damage
     
-def skills(skill_name):
+def skills(skill_name, user, team, foes):
     match skill_name:
         case "Slash":
-            slash()
-        case "Fireball":
+            slash(user, foes)
+        case "Fire":
             print(f"Using skill: {skill_name}!")
             time.sleep(1)
         case "Heal":
+            heal(user, team)
             print(f"Using skill: {skill_name}!")
             time.sleep(1)
-        case "Ice Shard":
+        case "Ice":
             print(f"Using skill: {skill_name}!")
             time.sleep(1)
         case "Thunder":
@@ -221,8 +225,21 @@ def skills(skill_name):
             time.sleep(1)
     print(f"Using skill: {skill_name}!")
     time.sleep(1)
+
+
     
-def slash():
-    print("Using skill: Slash!")
-    print("Swinging sword for Slash!")
-    time.sleep(1)
+def slash(foes, user):
+    
+    target = random.choice(foes)
+    slash = get_by_name("Slash")
+    if slash.trigger(user.luck_roll()) == True :
+        damage = (user.attack * slash.power / 10) * random.uniform(0.8, 1.2)
+        print(f"{user} uses Slash !")
+        time.sleep(1)
+        
+        return damage
+    
+    
+    
+def heal(team):
+    return

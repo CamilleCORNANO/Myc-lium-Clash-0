@@ -1,6 +1,6 @@
 from hashlib import new
 from pymongo import MongoClient
-from classes import Character, Monster
+from classes import Character, Monster, Skill, Special
 import data
 
 client = MongoClient("mongodb://localhost:27017")
@@ -96,28 +96,51 @@ def get_characters():
             monster["Race"]
         )
         monsters.append(new_monster)
-    return characters, monsters
+        return characters, monsters
+    
 def get_skills():
     skills = []
+    specials = []
     for skill in db_skills.find():
-        skills.append(skill)
-    
-    return skills
+        new_skill = Skill(
+            skill["Name"], 
+            skill["Power"], 
+            skill["Trigger"], 
+            skill["Description"]
+        )
+        skills.append(new_skill)
+    for special in db_specials.find():
+        new_special = Special(
+            special["Name"], 
+            special["Power"], 
+            special["Trigger"], 
+            special["User"],
+            special["Description"],
+        )
+        specials.append(new_special)
+    return skills, specials
 
 def load_high_scores():
     high_scores = db_high_scores.find().sort("Score", -1).limit(10)
     for idx, score_entry in enumerate(high_scores, 1):
         print(f"{idx}. {score_entry['PlayerName']} - Score: {score_entry['Score']} - Team: {', '.join(score_entry['Team'])}")
 
-def get_character_by_name(name):
+def get_by_name(name):
         characters, monsters = get_characters()
+        skills, specials = get_skills()
         for character in characters:
             if character.name == name:
                 return character
         for monster in monsters:
             if monster.name == name:
                 return monster
-        print(f"Character with name {name} not found.")
+        for skill in skills:
+            if skill.name == name:
+                return skill
+        for special in specials:
+            if special.name == special:
+                return special
+        print(f"No {name} not found.")
         return None
 
 def clear_database(unit):
