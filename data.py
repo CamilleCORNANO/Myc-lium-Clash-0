@@ -54,8 +54,8 @@ skills_data = [
     {"Name": "Earthquake", "Power": 30, "Trigger": 0.33, "Description": "A ground-shaking attack that damages all enemies."},
     {"Name": "Wind", "Power": 5, "Trigger": 1.32, "Description": "A swift attack with an high critical rate."},
     {"Name": "Water", "Power": 16, "Trigger": 0.95, "Description": "heals an ally, hurts an enemy."},
-    {"Name": "Light", "Power": 28, "Trigger": 0.5, "Description": "A radiant attack that enlightens the target."},
-    {"Name": "Darkness", "Power": 24, "Trigger": 0.6, "Description": "A shadow ball that engulfs the target in darkness."},
+    {"Name": "Light", "Power": 28, "Trigger": 0.5, "Description": "A radiant attack with a 0HKO chance"},
+    {"Name": "Darkness", "Power": 24, "Trigger": 0.21, "Description": "A shadow swamp AOE with a 0HKO chance"},
     {"Name": "Void", "Power": 28, "Trigger": 0.34, "Description": "A void attack that deals damage and reduces the target's defense."},
     {"Name": "Hellfire", "Power": 16, "Trigger": 0.2, "Description": "Shoots 11 times, each hit has a chance to crit."},
     {"Name": "Sophisme", "Power": 50, "Trigger": 1.1, "Description": "A basically non-argument doing mental damage"},
@@ -63,16 +63,16 @@ skills_data = [
     ]
 specials_data = [
     {"Name": "To Ashes", "Power": 100, "Trigger": 0.1, "User": "Tsubaki", "Description": "OHKO attack that reduces the target to ashes."},
-    {"Name": "Pacify", "Power": -100, "Trigger": 0.15, "User": "Shizune", "Description": "A strong heal that restores a large amount of health, skips the next turn."},
+    {"Name": "Pacify", "Power": -100, "Trigger": 0.15, "User": "Shizune", "Description": "A strong heal that restores a large amount of health, grants a new turn."},
     {"Name": "Inferno", "Power": 55, "Trigger": 0.12, "User": "Temari", "Description": "Hits 3 times all enemies."},
     {"Name": "Tsunami", "Power": 101, "Trigger": 0.05, "User": "Shiori", "Description": "A massive wave that crashes down on all enemies."},
-    {"Name": "Blizzard", "Power": 180, "Trigger": 0.09, "User": "Gantei", "Description": "A freezing storm that damages all enemies."},
-    {"Name": "Meteor Geyser", "Power": 124, "Trigger": 0.1, "User": "Blanche", "Description": "An allmighty uppercut into the sky followed by a devastating meteor strike."},
+    {"Name": "Blizzard", "Power": 180, "Trigger": 0.09, "User": "Gantei", "Description": "A freezing storm that damages all enemies. grants a new turn"},
+    {"Name": "Meteor Geyser", "Power": 124, "Trigger": 0.1, "User": "Blanche", "Description": "An allmighty uppercut into the sky followed by a devastating meteor strike. High crit rate."},
     {"Name": "Moon", "Power": 120, "Trigger": 0.08, "User": "Kamuri", "Description": "A mystical attack that ignores the opponent's defense."},
     {"Name": "Sun", "Power": 130, "Trigger": 0.07, "User": "Asuna", "Description": "A radiant attack that heals the user the damage dealt."},
-    {"Name": "Unforgettable Kind", "Power": 140, "Trigger": 0.05, "User": "Myosotis", "Description": "A super powerful attack that takes the aggro and reduce all damage taken to 1."},
+    {"Name": "Unforgettable Kind", "Power": 140, "Trigger": 0.05, "User": "Myosotis", "Description": "A super powerful attack that reduces all damage taken to 1."},
     {"Name": "Peppy Parade", "Power": 150, "Trigger": 0.04, "User": "Minori", "Description": "Either deals massive damage or heals all allies completely."},
-    {"Name": "The Sin of Envy", "Power": 200, "Trigger": 0.03, "User": "Shiki", "Description": "Seduces the target into joining the user's team."}
+    {"Name": "The Sin of Envy", "Power": 200, "Trigger": 0.03, "User": "Shiki", "Description": "Summons an ally."}
     ]
 
 def load_data():

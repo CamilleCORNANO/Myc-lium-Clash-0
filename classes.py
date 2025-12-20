@@ -7,22 +7,45 @@ class Character:
     def __init__(self, name, hp, attack, defense, luck, skills):
         self.name = name
         self.health = hp
+        self.max_health = hp
         self.attack = attack
         self.defense = defense
         self.luck = luck
         self.skills = skills
         self.killer = None
+    
     def is_alive(self):
         return self.health > 0
     
     def take_damage(self, damage):
         self.health -= damage * self.defense
         if self.health <= 0:
-            self.health = 0
             print(f"{self.name} has been defeated!")
-    def luck_roll(self):
-        return self.luck * 1,3
     
+    def take_damage_no_defense(self, damage):
+        self.health -= damage
+        if self.health > self.max_health:
+            self.health = self.max_health 
+        if self.health <= 0:
+            print(f"{self.name} has been defeated!")
+                  
+    def defeat(self, attacker):
+        if not self.is_alive():
+            print(f"{attacker.name} has defeated {self.name}!")
+            self.killer = attacker.name
+        
+    def luck_roll(self):
+        return self.luck * random.random()
+    
+    def try_lower(self, stat, fall, coeff):
+        if self.luck_roll() <= fall :
+            match stat:
+                case "defense" :
+                    self.defense *= coeff
+                case "attack" :
+                    self.attack *= coeff
+        
+        
     def __str__(self):
         return f"{self.name} \n (HP: {self.health}, Attack: {self.attack}, Defense: {self.defense})"
     def return_killer(self):
@@ -118,12 +141,13 @@ class Skill:
     
     def trigger_okay(self, luck):
         trigger = self.trigger + luck
-        if trigger < 1:
-            return False
-        if trigger > 1 :
-            if self.trigger_okay(trigger) :
-                
-            return True
+        act = 0
+        while trigger >= 1:
+            act += 1
+            trigger -= 1
+        if random.random() < trigger:
+            act += 1
+        return act
 
 class Special(Skill):
     def __init__(self, name, power, trigger, user, description):
