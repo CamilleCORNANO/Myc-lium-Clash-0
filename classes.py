@@ -1,7 +1,7 @@
 import random
 import time
 
-from game import skills
+
 
 class Character:
     def __init__(self, name, hp, attack, defense, luck, skills):
@@ -9,7 +9,9 @@ class Character:
         self.health = hp
         self.max_health = hp
         self.attack = attack
+        self.max_attack = attack
         self.defense = defense
+        self.max_defense = defense
         self.luck = luck
         self.skills = skills
         self.killer = None
@@ -18,9 +20,13 @@ class Character:
         return self.health > 0
     
     def take_damage(self, damage):
-        self.health -= damage * self.defense
-        if self.health <= 0:
-            print(f"{self.name} has been defeated!")
+        taken = damage * self.defense
+        if taken == 0:
+            self.take_damage_no_defense(1)
+        else:
+            self.health -= taken
+            if self.health <= 0:
+                print(f"{self.name} has been defeated!")
     
     def take_damage_no_defense(self, damage):
         self.health -= damage
@@ -44,8 +50,8 @@ class Character:
                     self.defense *= coeff
                 case "attack" :
                     self.attack *= coeff
-        
-        
+    def __repr__(self):
+        return self.__str__()  # Utilise la même chose que __str__    
     def __str__(self):
         return f"{self.name} \n (HP: {self.health}, Attack: {self.attack}, Defense: {self.defense})"
     def return_killer(self):
@@ -53,8 +59,14 @@ class Character:
     
     def use_skills(self, team, foes):
         for s in self.skills:
+            from game import skills
             skills(s.name, self, team, foes)
-            
+    
+    def reset_stat(self):
+        self.health = self.max_health
+        self.attack = self.max_attack
+        self.defense = self.max_defense
+           
     
     def __add__(self, other):
         if isinstance(other, Character):
@@ -84,6 +96,8 @@ class Monster(Character):
         }
     def __str__(self):
         return f"{self.name} \n (HP: {self.health},  Attack: {self.attack}, Defense: {self.defense}, Race: {self.race})"
+    def __repr__(self):
+        return self.__str__()  # Utilise la même chose que __str__
 class Player():
     def __init__(self, name):
         self.name = name
@@ -122,7 +136,7 @@ class Score():
     def __init__(self, player):
         self.value = 0
         self.player = player.name
-        self.team = player.get_characters()
+        self.team = player.characters.get_members()
     def __str__(self):
         return f"Player: {self.player}, Score: {self.value}"
     def increase(self, amount=1):
@@ -137,8 +151,9 @@ class Skill:
         self.trigger = trigger
         self.description = description
     def __str__(self):
-        return f"{self.name} (Power: {self.power}, Trigger: {self.trigger}) - {self.description} /n"
-    
+        return f" {self.name} (Power: {self.power}, Trigger: {self.trigger}) - {self.description} \n" 
+    def __repr__(self):
+        return self.__str__()  # Utilise la même chose que __str__
     def trigger_okay(self, luck):
         trigger = self.trigger + luck
         act = 0
@@ -149,9 +164,12 @@ class Skill:
             act += 1
         return act
 
+
 class Special(Skill):
     def __init__(self, name, power, trigger, user, description):
         super().__init__(name, power, trigger, description)
         self.user = user
     def __str__(self):
         return f"{self.name} (User: {self.user}, Power: {self.power}, Trigger: {self.trigger}) - {self.description} /n"
+    def __repr__(self):
+        return self.__str__()  # Utilise la même chose que __str__

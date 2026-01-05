@@ -23,23 +23,23 @@ character_data = [
     {"Name": "Tsubaki",  "HP": 2000, "Attack": 1550, "Defense": 0.35, "Luck": 0.34, "Skills": ["Slam", "Smash", "Fire", "Thunder"]}
 ]
 monster_data = [
-    {"Name": "Le grand Capital", "HP": 2105000, "Attack": 300, "Defense": 1, "Skills": [], "Race": "White"},
-    {"Name": "Le Patriarcat",  "HP": 1940000, "Attack": 670, "Defense": 0.94,"Skills": [], "Race": "White"},
-    {"Name": "Emmanuel Macron",  "HP": 4000, "Attack": 16, "Defense": 1.34,"Skills": [], "Race": "White"},
-    {"Name": "L'Hégémonie Culturelle Etatsunienne",  "HP": 1040000, "Attack": 250, "Defense": 0.89,"Skills": [], "Race": "White"},
-    {"Name": "Le Réchauffement Climatique",  "HP": 2500000, "Attack": 1500, "Defense": 0.8,"Skills": [], "Race" : "White"},
-    {"Name": "anti-Wokes",  "HP": 1800, "Attack": 800, "Defense": 1.1,"Skills": [], "Race": "White"},
-    {"Name": "Le grand déni des crimes de guerres Japonais",  "HP": 2200000, "Attack": 115, "Defense": 1.1,"Skills": [], "Race": "Asian"},
-    {"Name": "Le nationalisme",  "HP": 1300000, "Attack": 400, "Defense": 1.2,"Skills": [], "Race": "White"},
-    {"Name": "Bonapartiste",  "HP": 9000, "Attack": 160, "Defense": 1.3,"Skills": [], "Race": "White"},
-    {"Name": "Les services de renseignement",  "HP": 5000, "Attack": 17000, "Defense": 0.7,"Skills": [], "Race": "White"},
-    {"Name": "Les lobbys agro-industriels",  "HP": 750000, "Attack": 600, "Defense": 0.75, "Skills": [], "Race": "White"},
-    {"Name": "Le lobby pharmaceutique",  "HP": 1100000, "Attack": 300, "Defense": 0.85, "Skills": [], "Race": "White"},
-    {"Name": "La CRIF",  "HP": 2000000, "Attack": 1760, "Defense": 1.15, "Skills": [], "Race": "White"},
-    {"Name": "Le consumérisme",  "HP": 1600000, "Attack": 1100, "Defense": 0.9, "Skills": [], "Race": "White"},
-    {"Name": "Bobo parisien",  "HP": 3000, "Attack": 1050, "Defense": 1.2, "Skills": [],"Race": "White"},
-    {"Name": "Tonton raciste", "HP": 4000, "Attack": 200, "Defense": 1.25, "Skills": [], "Race": "White"},
-    {"Name": "Flic", "HP": 8500, "Attack": 1500, "Defense": 1.2, "Skills": [], "Race": "Random"}
+    {"Name": "Le grand Capital", "HP": 2105000, "Attack": 300, "Defense": 1, "Luck": 1, "Skills": [], "Race": "White"},
+    {"Name": "Le Patriarcat",  "HP": 1940000, "Attack": 670, "Defense": 0.94, "Luck": 1, "Skills": [], "Race": "White"},
+    {"Name": "Emmanuel Macron",  "HP": 4000, "Attack": 16, "Defense": 1.34, "Luck": 1, "Skills": [], "Race": "White"},
+    {"Name": "L'Hégémonie Culturelle Etatsunienne",  "HP": 1040000, "Attack": 250, "Defense": 0.89, "Luck": 1, "Skills": [], "Race": "White"},
+    {"Name": "Le Réchauffement Climatique",  "HP": 2500000, "Attack": 1500, "Defense": 0.8, "Luck": 1, "Skills": [], "Race" : "White"},
+    {"Name": "anti-Wokes",  "HP": 1800, "Attack": 800, "Defense": 1.1, "Luck": 1, "Skills": [], "Race": "White"},
+    {"Name": "Le grand déni des crimes de guerres Japonais",  "HP": 2200000, "Attack": 115, "Defense": 1.1, "Luck": 1, "Skills": [], "Race": "Asian"},
+    {"Name": "Le nationalisme",  "HP": 1300000, "Attack": 400, "Defense": 1.2, "Luck": 1, "Skills": [], "Race": "White"},
+    {"Name": "Bonapartiste",  "HP": 9000, "Attack": 160, "Defense": 1.3, "Luck": 1, "Skills": [], "Race": "White"},
+    {"Name": "Les services de renseignement",  "HP": 5000, "Attack": 17000, "Defense": 0.7, "Luck": 1, "Skills": [], "Race": "White"},
+    {"Name": "Les lobbys agro-industriels",  "HP": 750000, "Attack": 600, "Defense": 0.75, "Luck": 1, "Skills": [], "Race": "White"},
+    {"Name": "Le lobby pharmaceutique",  "HP": 1100000, "Attack": 300, "Defense": 0.85, "Luck": 1, "Skills": [], "Race": "White"},
+    {"Name": "La CRIF",  "HP": 2000000, "Attack": 1760, "Defense": 1.15, "Luck": 1, "Skills": [], "Race": "White"},
+    {"Name": "Le consumérisme",  "HP": 1600000, "Attack": 1100, "Defense": 0.9, "Luck": 1, "Skills": [], "Race": "White"},
+    {"Name": "Bobo parisien",  "HP": 3000, "Attack": 1050, "Defense": 1.2, "Luck": 1, "Skills": [],"Race": "White"},
+    {"Name": "Tonton raciste", "HP": 4000, "Attack": 200, "Defense": 1.25, "Luck": 1, "Skills": [], "Race": "White"},
+    {"Name": "Flic", "HP": 8500, "Attack": 1500, "Defense": 1.2, "Luck": 1, "Skills": [], "Race": "Random"}
     ]
 skills_data = [
     {"Name": "Slash", "Power": 11, "Trigger": 1.0, "Description": "A quick slash attack."},
@@ -84,4 +84,3 @@ def load_data():
         skills.insert_many(skills_data)
     if specials.find_one() is None:
         specials.insert_many(specials_data)
-    skills.insert_many(specials)

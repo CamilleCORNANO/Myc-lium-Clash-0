@@ -2,7 +2,7 @@ import random
 import time
 from model import *
 from classes import Player, Team, Character, Monster
-from utils import get_int_input, get_by_name, get_characters
+from utils import get_int_input
 
 def run_game():
     while True:
@@ -742,7 +742,7 @@ def sun(user, foes):
     return damages
 
 def unforgettable_kind(user, foes):
-    skill = get_by_name("Meteor Geyser")
+    skill = get_by_name("Unforegettable Kind")
     num_attacks = skill.trigger_okay(user.luck_roll())
     damages = []
     combat_pause(type_pause="special")
@@ -759,9 +759,11 @@ def unforgettable_kind(user, foes):
                 damage = crit_chance(user, damage)
             damages.append(damage) #pour Recoil()
             print(f"{user.name} uses Unforgettable Kind on {target.name}! {target.name} takes {damage} damage !")
+            user.defense = 0
+            print("La defense de Myosotis devient parfaite.")
             num_attacks -= 1
             combat_pause(type_pause="action", attacker_name=user.name)
-            target.take_damage_no_defense(damage)
+            target.take_damage(damage)
             combat_pause(type_pause="damage", damage=damage, defender_name=target.name)
             if target.is_defeated():
                 target.defeat()

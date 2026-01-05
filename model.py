@@ -84,7 +84,10 @@ def get_characters():
             character["Name"],
             character["HP"],
             character["Attack"],
-            character["Defense"]
+            character["Defense"],
+            character["Luck"],
+            character["Skills"],
+            
         )
         characters.append(new_character)  
     for monster in db_monsters.find():
@@ -93,6 +96,8 @@ def get_characters():
             monster["HP"],
             monster["Attack"],
             monster["Defense"],
+            monster["Luck"],
+            monster["Skills"],
             monster["Race"]
         )
         monsters.append(new_monster)
@@ -120,11 +125,6 @@ def get_skills():
         specials.append(new_special)
     return skills, specials
 
-def load_high_scores():
-    high_scores = db_high_scores.find().sort("Score", -1).limit(10)
-    for idx, score_entry in enumerate(high_scores, 1):
-        print(f"{idx}. {score_entry['PlayerName']} - Score: {score_entry['Score']} - Team: {', '.join(score_entry['Team'])}")
-
 def get_by_name(name):
         characters, monsters = get_characters()
         skills, specials = get_skills()
@@ -142,6 +142,13 @@ def get_by_name(name):
                 return special
         print(f"No {name} not found.")
         return None
+    
+def load_high_scores():
+    high_scores = db_high_scores.find().sort("Score", -1).limit(10)
+    for idx, score_entry in enumerate(high_scores, 1):
+        print(f"{idx}. {score_entry['PlayerName']} - Score: {score_entry['Score']} - Team: {', '.join(score_entry['Team'])}")
+
+
 
 def clear_database(unit):
     match unit:
@@ -172,5 +179,5 @@ def clear_database(unit):
             return  # Sort de la fonction sans afficher le message de succès
     
     print(f"Cleared all data from {unit} collection.")
-
-clear_database("all")
+    
+   

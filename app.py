@@ -1,9 +1,7 @@
-from classes import Monster
 import random, sys, model
 from game import run_game
 from model import load_high_scores, add_character_to_db, add_monster_to_db, list_characters, list_monsters, get_characters 
 from data import load_data
-
 from pymongo import MongoClient
 client = MongoClient("mongodb://localhost:27017")
 db = client["todo_db"]
@@ -38,7 +36,7 @@ while(True):
             defense = float(input("Enter monster Defense: ")) 
             race = input("Enter monster race: ")
             mon_id = add_monster_to_db(name, hp, attack, defense, race)
-            new_monster = Monster(name, hp, attack, defense, race)
+            new_monster = model.Monster(name, hp, attack, defense, race)
             print(f"Monster added with ID: {mon_id}")
         case "5":
             print(model.list_characters())
@@ -48,7 +46,6 @@ while(True):
             print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
         case "7":
             print(model.list_skills())
-            print(model.list_specials())
             
         case "8":
             print("Exiting the game. Goodbye!")
